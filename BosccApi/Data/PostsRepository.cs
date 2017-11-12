@@ -17,5 +17,6 @@ namespace BosccApi.Data
         }
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<CryptoCurrency> CryptoCurrencies {get;set;}
     }
 }
