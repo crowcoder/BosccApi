@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using BosccApi.Models;
 using BosccApi.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace BosccApi.Controllers
 {    
@@ -17,6 +18,13 @@ namespace BosccApi.Controllers
         public PostsController(PostsContext ctx)
         {
             _ctx = ctx;
+        }
+
+        [HttpDelete]
+        public void Delete(Microsoft.AspNetCore.Http.IFormCollection fc)
+        {
+            string a = fc["foo"];
+
         }
         
         [HttpGet]

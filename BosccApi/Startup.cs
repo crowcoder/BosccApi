@@ -30,6 +30,8 @@ namespace BosccApi
             
             var cnxnStr = Configuration.GetConnectionString("Default");
 
+            services.AddLogging();
+
             services.AddAuthentication(Options => {
                 Options.DefaultAuthenticateScheme = "JwtBearer";
                 Options.DefaultChallengeScheme = "JwtBearer";
@@ -64,7 +66,7 @@ namespace BosccApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+           
             app.UseAuthentication();
             app.UseMvc();
         }

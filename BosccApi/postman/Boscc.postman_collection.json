@@ -1,7 +1,7 @@
 {
 	"info": {
 		"name": "Boscc",
-		"_postman_id": "f882179b-27fb-6a9b-fc9d-aaa0c724780c",
+		"_postman_id": "581921a6-0e4d-2df6-f1f4-e1b7aa1b970d",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -88,7 +88,10 @@
 								"value": "Bearer {{LastToken}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{BaseUrl}}/api/posts/602",
 							"host": [
@@ -177,18 +180,20 @@
 					},
 					"response": [
 						{
-							"id": "6a8cc53c-7026-4f6e-bfaa-926eec27acda",
+							"id": "28941315-5c28-475d-9961-a7109be3eb20",
 							"name": "Get id 602",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer {{LastToken}}",
-										"disabled": false
+										"value": "Bearer {{LastToken}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{BaseUrl}}/api/posts/602",
 									"host": [
@@ -199,7 +204,8 @@
 										"posts",
 										"602"
 									]
-								}
+								},
+								"description": ""
 							},
 							"status": "OK",
 							"code": 200,
@@ -232,7 +238,7 @@
 								}
 							],
 							"cookie": [],
-							"responseTime": 44,
+							"responseTime": "44",
 							"body": "{\"id\":602,\"postTypeId\":2,\"creationDate\":\"2012-04-12T09:05:18.607-04:00\",\"score\":0,\"viewCount\":null,\"title\":null,\"body\":\"<p>In my opinion:<br>\\nWhy do I have do log on to chat rooms seperatly? I know I need some reputation to talk there, there are more chatrooms than SO-portals.</p>\\n\\n<p>I mean, few days ago I saw a 100 bounty in SO asking about SharePoint. This member also had account in SP. Why not asking there? I guess, it is same reason why noone is in chat.</p>\\n\",\"lastActivityDate\":\"2012-04-12T09:05:18.607-04:00\",\"ownerUserId\":6478,\"lastEditorUserId\":null,\"lastEditDate\":null,\"commentCount\":1,\"tags\":null,\"answerCount\":null,\"favoriteCount\":null}"
 						}
 					]
@@ -252,7 +258,7 @@
 								"type": "text/javascript",
 								"exec": [
 									"",
-									"pm.test(\"Status code is 200\", function () {",
+									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"",
@@ -319,6 +325,197 @@
 			]
 		},
 		{
+			"name": "Simple",
+			"description": "",
+			"item": [
+				{
+					"name": "1. localhost:63816/api/Simple/4",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:63816/api/Simple/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "63816",
+							"path": [
+								"api",
+								"Simple",
+								"4"
+							]
+						},
+						"description": "Step two of simple demo, parameterizing your url."
+					},
+					"response": []
+				},
+				{
+					"name": "2. {{BaseUrl}}/api/Simple/4",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BaseUrl}}/api/Simple/4",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"Simple",
+								"4"
+							]
+						},
+						"description": "Step two of simple demo, parameterizing your url."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Random ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BaseUrl}}/api/Simple/{{$randomInt}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"Simple",
+								"{{$randomInt}}"
+							]
+						},
+						"description": "Uses built-in random number"
+					},
+					"response": []
+				},
+				{
+					"name": "4. Starts With 9",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"let rando = Math.random();",
+									"let chopped = Math.trunc((9 + rando) * 1000);",
+									"console.info(\"Chopped: \" + chopped);",
+									"postman.setEnvironmentVariable('StartsWith9', chopped);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"Simple",
+								"{{StartsWith9}}"
+							]
+						},
+						"description": "Uses built-in random number"
+					},
+					"response": []
+				},
+				{
+					"name": "5. Starts With 9 By Saved Script",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"let customscript = eval(postman.getGlobalVariable('StartsWith9Custom'));",
+									"let chopped = customscript.generateNbr();",
+									"postman.setEnvironmentVariable('StartsWith9', chopped);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"Simple",
+								"{{StartsWith9}}"
+							]
+						},
+						"description": "Uses custom script to generate a 9number"
+					},
+					"response": []
+				},
+				{
+					"name": "6. Starts With 9 with tests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    let nine = Math.trunc(jsonData.id / 1000);",
+									"    pm.expect(nine).to.eql(9);",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"let customscript = eval(postman.getGlobalVariable('StartsWith9Custom'));",
+									"let chopped = customscript.generateNbr();",
+									"postman.setEnvironmentVariable('StartsWith9', chopped);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"Simple",
+								"{{StartsWith9}}"
+							]
+						},
+						"description": "Some tests to make sure starts with 9"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Get id 602",
 			"request": {
 				"method": "GET",
@@ -328,7 +525,10 @@
 						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiYm9iQGNvbnRyaXZlZGV4YW1wbGUuY29tIiwibmJmIjoxNTA2OTU0ODk1LCJleHAiOjE1MDY5NTUxOTUsImlzcyI6IkJvc2NjQXBpIiwiYXVkIjoiWW91In0.Bgol1iDq5ayxLzLYl8rNnl9qkwYUS9h72ziW_LM8O1c"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{BaseUrl}}/api/posts/602",
 					"host": [
@@ -354,7 +554,10 @@
 						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiYm9iQGNvbnRyaXZlZGV4YW1wbGUuY29tIiwibmJmIjoxNTA2OTU0ODk1LCJleHAiOjE1MDY5NTUxOTUsImlzcyI6IkJvc2NjQXBpIiwiYXVkIjoiWW91In0.Bgol1iDq5ayxLzLYl8rNnl9qkwYUS9h72ziW_LM8O1c"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{BaseUrl}}/api/posts/602",
 					"host": [
@@ -642,6 +845,26 @@
 					"path": [
 						"api",
 						"Token"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{BaseUrl}}/api/Gif",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"Gif"
 					]
 				},
 				"description": ""

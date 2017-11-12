@@ -1,7 +1,13 @@
 {
-  "id": "b4248c76-6317-3f51-dfee-c96f68b18f5b",
+  "id": "8002233b-df2a-d550-f9a3-3f3f084e1794",
   "name": "Postman Globals",
   "values": [
+    {
+      "key": "EvoHasher",
+      "value": "var EvoHasher = (function () {\n\n    var util = {};\n\n    function GenerateOne3Hash(crypto, dataToHash, agentKey) {\n        var secret = crypto.enc.Hex.parse(agentKey);\n        var rawHash = crypto.HmacSHA256(dataToHash, secret);\n        var base64Hash = crypto.enc.Base64.stringify(rawHash);\n        return base64Hash;\n    }\n\n    function GenerateHash(crypto, refid, timestmp, ipAddress, agentId, agentKey) {\n\n        util.currentTime = setTimeStamp(timestmp);\n        util.referenceid = refid;\n        var dataToHash = ''.concat(util.currentTime, agentId, (refid || \"\"), ipAddress || \"\");\n        var secret = crypto.enc.Hex.parse(agentKey);\n        var rawHash = crypto.HmacSHA256(dataToHash, secret);\n        var base64Hash = crypto.enc.Base64.stringify(rawHash);\n        var hdrBytes = crypto.enc.Utf8.parse(agentId + ':' + base64Hash);\n        util.authHdr = crypto.enc.Base64.stringify(hdrBytes);\n    };\n\n    function One3PidAnswerConcatenator(reqBody, correlationid, refid, appid){\n        \n        var answers = reqBody.Answers.join('');\n        \n        return \"\".concat(\n            (correlationid || ''),\n            (reqBody.OriginIPAddress || ''),\n            (reqBody.IntegratorID || ''),\n            (refid || ''),\n            (appid || ''),\n            answers\n        );\n    }\n\n    function One3Concatenator(reqBody, refid) {\n\n        return ''.concat(\n            (reqBody.OriginIPAddress || ''),\n            (reqBody.IntegratorID || ''),\n            (refid || ''),\n            (reqBody.DBA || ''),\n            (reqBody.BusinessStructureType || ''),\n            (reqBody.MCC || ''),\n            (reqBody.FedTaxID || ''),\n            (reqBody.PrimaryOwnerSSN || ''),\n            (reqBody.BankAccountNumber || ''),\n            (reqBody.BankRoutingNumber || ''),\n            (reqBody.PhysicalAddress || ''),\n            (reqBody.PhysicalCity || ''),\n            (reqBody.PhysicalState || ''),\n            (reqBody.PhysicalZip || ''),\n            (reqBody.PhysicalPhone || ''),\n            (reqBody.PrimaryOwnerFirstName || ''),\n            (reqBody.PrimaryOwnerLastName || ''),\n            (reqBody.PrimaryOwnerDOB || ''),\n            (reqBody.PrimaryOwnerAddress || ''),\n            (reqBody.PrimaryOwnerCity || ''),\n            (reqBody.PrimaryOwnerState || ''),\n            (reqBody.PrimaryOwnerZip || ''),\n            (reqBody.PrimaryOwnerPhone || ''),\n            (reqBody.LegalEmail || ''),\n            (reqBody.URL || ''),\n            (reqBody.AveTicketSize || ''),\n            (reqBody.MaxTicket || ''),\n            (reqBody.AveAnnualVolume || ''),\n            (reqBody.ApplicationType || ''),\n            (reqBody.ApplyForAmex || ''),\n            (reqBody.HadDataCompromise || '')\n        );\n    };\n\n    function setTimeStamp(timestmp) {\n        if (timestmp) {\n            return timestmp;\n        } else {\n            var dt = new Date();\n            return dt.getTime();\n        }\n    };\n\n    util.generateHash = GenerateHash;\n    util.generateOne3Hash = GenerateOne3Hash;\n    util.one3Concatenator = One3Concatenator;\n    util.one3PidAnswerConcatenator = One3PidAnswerConcatenator;\n\n    return util;\n\n})();\n",
+      "enabled": true,
+      "type": "text"
+    },
     {
       "key": "DemoHasher",
       "value": "var PostmanScripts;\n(function (PostmanScripts) {\n    var Hasher = /** @class */ (function () {\n        function Hasher() {\n        }\n        Hasher.prototype.GenerateHash = function (requestBody, secretKey) {\n            var secret = CryptoJS.enc.Hex.parse(secretKey);\n            var rawHash = CryptoJS.HmacSHA256(requestBody, secret);\n            var base64Hash = CryptoJS.enc.Base64.stringify(rawHash);\n            return base64Hash;\n        };\n        return Hasher;\n    }());\n    PostmanScripts.Hasher = Hasher;\n})(PostmanScripts || (PostmanScripts = {}));\n",
@@ -10,12 +16,18 @@
     },
     {
       "key": "TokenSetter",
-      "value": "(function(){\n\tconst BaseUrl = postman.getEnvironmentVariable(\"BaseUrl\");\n\tconst username = postman.getEnvironmentVariable(\"TokenUserName\");\n\tconst password = postman.getEnvironmentVariable(\"TokenPassword\");\n\n\tpm.sendRequest({\n\t\turl: BaseUrl + '/api/Token',\n\t\tmethod: 'POST',\n\t\theader: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Accept' : 'text/plain'},\n\t\tbody: {\n\t\t\tmode: 'raw',\n\t\t\traw: \"username=\" + username + \"&password=\" + password\n\t\t}\n\t}, function (err, res) {\n\t\tconst tkn = res.text();\n\t\tmyTests(tkn, theid, jsonResponse);\n\t})\n})(myTests, theid, jsonResponse);",
+      "value": "(function(){\n  const BaseUrl = postman.getEnvironmentVariable(\"BaseUrl\");\n  const username = postman.getEnvironmentVariable(\"TokenUserName\");\n  const password = postman.getEnvironmentVariable(\"TokenPassword\");\n\n  pm.sendRequest({\n    url: BaseUrl + '/api/Token',\n    method: 'POST',\n    header: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Accept' : 'text/plain'},\n    body: {\n      mode: 'raw',\n      raw: \"username=\" + username + \"&password=\" + password\n    }\n  }, function (err, res) {\n    const tkn = res.text();\n    myTests(tkn, theid, jsonResponse);\n  })\n})(myTests, theid, jsonResponse);",
+      "enabled": true,
+      "type": "text"
+    },
+    {
+      "key": "StartsWith9Custom",
+      "value": "(function(){\n  GenerateNbr = function () {\n        var rando = Math.random();\n        var chopped = Math.trunc((9 + rando) * 1000);\n        return chopped;\n    };\n    return { generateNbr : GenerateNbr };\n})();",
       "enabled": true,
       "type": "text"
     }
   ],
   "_postman_variable_scope": "globals",
-  "_postman_exported_at": "2017-10-20T18:34:28.798Z",
+  "_postman_exported_at": "2017-11-12T15:08:10.218Z",
   "_postman_exported_using": "Postman/5.3.1"
 }
