@@ -1,0 +1,1 @@
+﻿newman run Boscc.postman_collection.json -e "Boscc Debug.postman_environment.json" -g globals.postman_globals.json --reporters cli,json,html --reporter-json-export ./newman/pmtests.json

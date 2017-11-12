@@ -21,19 +21,29 @@ namespace BosccApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CryptoCurrency item)
+        public async Task<IActionResult> Post([FromBody]List<CryptoCurrency> items)
         {
-            if (item == null)
+            if (items == null)
             {
                 return BadRequest();
             }
 
-            _ctx.CryptoCurrencies.Add(item);
+            _ctx.CryptoCurrencies.AddRange(items);
             await _ctx.SaveChangesAsync();
 
             return Ok();
-
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(string id)
+        {
+            var currency = _ctx.CryptoCurrencies.Find(id);
+            if (currency != null)
+            {
+                return Ok(currency);
+            }
+
+            return NotFound(id);
+        }
     }
 }

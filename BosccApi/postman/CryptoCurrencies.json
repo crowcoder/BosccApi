@@ -1,0 +1,12 @@
+﻿[
+  { "CurrencyID": "LTC-EUR" },
+  { "CurrencyID": "LTC-BTC" },
+  { "CurrencyID": "LTC-USD" },
+  { "CurrencyID": "ETH-USD" },
+  { "CurrencyID": "ETH-EUR" },
+  { "CurrencyID": "ETH-BTC" },
+  { "CurrencyID": "ABC-DEF" },
+  { "CurrencyID": "BTC-USD" },
+  { "CurrencyID": "BTC-EUR" },
+  { "CurrencyID": "BTC-GBP" }
+]

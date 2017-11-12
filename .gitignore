@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/BosccApi/postman/newman/pmtests.json
+/BosccApi/postman/newman/newman-run-report-2017-11-12-21-57-55-347-0.html
+/BosccApi/postman/newman/newman-run-report-2017-11-12-21-53-09-343-0.html
+/BosccApi/postman/newman/newman-run-report-2017-11-12-21-51-58-656-0.html
