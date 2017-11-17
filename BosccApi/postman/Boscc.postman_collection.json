@@ -180,7 +180,7 @@
 					},
 					"response": [
 						{
-							"id": "28941315-5c28-475d-9961-a7109be3eb20",
+							"id": "712d8939-221d-4668-880f-6bec77c6cab0",
 							"name": "Get id 602",
 							"originalRequest": {
 								"method": "GET",
@@ -394,7 +394,7 @@
 					"response": []
 				},
 				{
-					"name": "4. Starts With 9",
+					"name": "4. Starts With 9 (Demo Console)",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -470,15 +470,19 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
 									"",
-									"pm.test(\"Your test name\", function () {",
+									"",
+									"",
+									"pm.test(\"Starts with 9\", function () {",
 									"    let jsonData = pm.response.json();",
 									"    let nine = Math.trunc(jsonData.id / 1000);",
 									"    pm.expect(nine).to.eql(9);",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
 								]
 							}
 						},
@@ -510,6 +514,60 @@
 							]
 						},
 						"description": "Some tests to make sure starts with 9"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stocks",
+			"description": "",
+			"item": [
+				{
+					"name": "Crypto By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let jsonData = pm.response.json();",
+									"    ",
+									"pm.test(\"Base Currency match\", function () {",
+									"    let base = jsonData.id.substring(0, 3);",
+									"    console.info(base);",
+									"    pm.expect(base).to.eql(jsonData.base_currency);",
+									"});",
+									"",
+									"pm.test(\"Quote Currency match\", function(){",
+									"    let quotecurrency = jsonData.id.substr(4,3);",
+									"    console.info(quotecurrency);",
+									"    pm.expect(quotecurrency).to.eql(jsonData.quote_currency);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{BaseUrl}}/api/CryptoCurrency/{{CurrencyID}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"CryptoCurrency",
+								"{{CurrencyID}}"
+							]
+						},
+						"description": ""
 					},
 					"response": []
 				}
@@ -574,7 +632,7 @@
 			"response": []
 		},
 		{
-			"name": "Post",
+			"name": "Post And Validate Demo",
 			"event": [
 				{
 					"listen": "test",
