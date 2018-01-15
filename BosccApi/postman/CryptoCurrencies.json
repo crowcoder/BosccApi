@@ -9,5 +9,6 @@
   { "CurrencyID": "BTC-USD" },
   { "CurrencyID": "BTC-EUR" },
   { "CurrencyID": "123-EZR" },
+  { "CurrencyID": "456-ZZR" },
   { "CurrencyID": "BTC-GBP" }
 ]
