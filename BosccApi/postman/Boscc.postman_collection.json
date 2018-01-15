@@ -1,933 +1,949 @@
 {
-	"info": {
-		"name": "Boscc",
-		"_postman_id": "581921a6-0e4d-2df6-f1f4-e1b7aa1b970d",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Two Steps",
-			"description": "",
-			"item": [
-				{
-					"name": "Get Token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"postman.setEnvironmentVariable(\"LastToken\", pm.response.text());",
-									"console.info(postman.getEnvironmentVariable(\"LastToken\"));",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "username",
-									"value": "bob",
-									"description": "",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123password",
-									"description": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{BaseUrl}}/api/Token",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"Token"
-							]
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Get id 602",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"var tkn = postman.getEnvironmentVariable(\"LastToken\");",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{LastToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{BaseUrl}}/api/posts/602",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"posts",
-								"602"
-							]
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "One Step",
-			"description": "",
-			"item": [
-				{
-					"name": "Get id 602",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"var jsonData = pm.response.json();",
-									"",
-									"pm.test(\"Id matches what we asked for\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.id).to.eql(602);",
-									"});"
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"const BaseUrl = postman.getEnvironmentVariable(\"BaseUrl\");",
-									"const username = postman.getEnvironmentVariable(\"TokenUserName\");",
-									"const password = postman.getEnvironmentVariable(\"TokenPassword\");",
-									"",
-									"pm.sendRequest({",
-									"    url: BaseUrl + '/api/Token',",
-									"    method: 'POST',",
-									"    header: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Accept' : 'text/plain'},",
-									"    body: {",
-									"        mode: 'raw',",
-									"        raw: \"username=\" + username + \"&password=\" + password",
-									"    }",
-									"}, function (err, res) {",
-									"    postman.setEnvironmentVariable(\"LastToken\", res.text());",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{LastToken}}"
-							}
-						],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/posts/602",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"posts",
-								"602"
-							]
-						},
-						"description": ""
-					},
-					"response": [
-						{
-							"id": "712d8939-221d-4668-880f-6bec77c6cab0",
-							"name": "Get id 602",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{LastToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{BaseUrl}}/api/posts/602",
-									"host": [
-										"{{BaseUrl}}"
-									],
-									"path": [
-										"api",
-										"posts",
-										"602"
-									]
-								},
-								"description": ""
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8",
-									"name": "Content-Type",
-									"description": "The mime type of this content"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 02 Oct 2017 18:16:59 GMT",
-									"name": "Date",
-									"description": "The date and time that the message was sent"
-								},
-								{
-									"key": "Server",
-									"value": "Kestrel",
-									"name": "Server",
-									"description": "A name for the server"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked",
-									"name": "Transfer-Encoding",
-									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
-								}
-							],
-							"cookie": [],
-							"responseTime": "44",
-							"body": "{\"id\":602,\"postTypeId\":2,\"creationDate\":\"2012-04-12T09:05:18.607-04:00\",\"score\":0,\"viewCount\":null,\"title\":null,\"body\":\"<p>In my opinion:<br>\\nWhy do I have do log on to chat rooms seperatly? I know I need some reputation to talk there, there are more chatrooms than SO-portals.</p>\\n\\n<p>I mean, few days ago I saw a 100 bounty in SO asking about SharePoint. This member also had account in SP. Why not asking there? I guess, it is same reason why noone is in chat.</p>\\n\",\"lastActivityDate\":\"2012-04-12T09:05:18.607-04:00\",\"ownerUserId\":6478,\"lastEditorUserId\":null,\"lastEditDate\":null,\"commentCount\":1,\"tags\":null,\"answerCount\":null,\"favoriteCount\":null}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Iterations",
-			"description": "",
-			"item": [
-				{
-					"name": "Post copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"pm.test(\"Status code is 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									"var jsonData = pm.response.json();",
-									"",
-									"pm.test(\"Your test name\", function () {",
-									"    pm.expect(jsonData.viewCount).to.eql(101);",
-									"});",
-									"",
-									""
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"eval(postman.getGlobalVariable(\"DemoHasher\"));",
-									"var h = new PostmanScripts.Hasher();",
-									"",
-									"const reqBody = request.data;",
-									"const theHash = h.GenerateHash(reqBody, \"ABCDE12335\");",
-									"",
-									"postman.setEnvironmentVariable(\"Signature\", theHash);",
-									"",
-									"console.info(theHash);",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Request-Signature",
-								"value": "{{Signature}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"postTypeId\": 2,\n    \"creationDate\": \"2017-09-29T09:05:18.607-04:00\",\n    \"score\": 0,\n    \"viewCount\": 101,\n    \"title\": \"Mares Eat Oats\",\n    \"body\": \"and little lambs eat ivy\",\n    \"lastActivityDate\": \"2017-09-30T09:05:18.607-04:00\",\n    \"ownerUserId\": 6478,\n    \"lastEditorUserId\": null,\n    \"lastEditDate\": null,\n    \"commentCount\": 1,\n    \"tags\": \"abc,123\",\n    \"answerCount\": 15,\n    \"favoriteCount\": 3\n}"
-						},
-						"url": {
-							"raw": "{{BaseUrl}}/api/posts",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"posts"
-							]
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Simple",
-			"description": "",
-			"item": [
-				{
-					"name": "1. localhost:63816/api/Simple/4",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "http://localhost:63816/api/Simple/4",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "63816",
-							"path": [
-								"api",
-								"Simple",
-								"4"
-							]
-						},
-						"description": "Step two of simple demo, parameterizing your url."
-					},
-					"response": []
-				},
-				{
-					"name": "2. {{BaseUrl}}/api/Simple/4",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/Simple/4",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"Simple",
-								"4"
-							]
-						},
-						"description": "Step two of simple demo, parameterizing your url."
-					},
-					"response": []
-				},
-				{
-					"name": "3. Random ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/Simple/{{$randomInt}}",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"Simple",
-								"{{$randomInt}}"
-							]
-						},
-						"description": "Uses built-in random number"
-					},
-					"response": []
-				},
-				{
-					"name": "4. Starts With 9 (Demo Console)",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"let rando = Math.random();",
-									"let chopped = Math.trunc((9 + rando) * 1000);",
-									"console.info(\"Chopped: \" + chopped);",
-									"postman.setEnvironmentVariable('StartsWith9', chopped);"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"Simple",
-								"{{StartsWith9}}"
-							]
-						},
-						"description": "Uses built-in random number"
-					},
-					"response": []
-				},
-				{
-					"name": "5. Starts With 9 By Saved Script",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"let customscript = eval(postman.getGlobalVariable('StartsWith9Custom'));",
-									"let chopped = customscript.generateNbr();",
-									"postman.setEnvironmentVariable('StartsWith9', chopped);"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"Simple",
-								"{{StartsWith9}}"
-							]
-						},
-						"description": "Uses custom script to generate a 9number"
-					},
-					"response": []
-				},
-				{
-					"name": "6. Starts With 9 with tests",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"",
-									"",
-									"pm.test(\"Starts with 9\", function () {",
-									"    let jsonData = pm.response.json();",
-									"    let nine = Math.trunc(jsonData.id / 1000);",
-									"    pm.expect(nine).to.eql(9);",
-									"});",
-									"",
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									""
-								]
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"let customscript = eval(postman.getGlobalVariable('StartsWith9Custom'));",
-									"let chopped = customscript.generateNbr();",
-									"postman.setEnvironmentVariable('StartsWith9', chopped);"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"Simple",
-								"{{StartsWith9}}"
-							]
-						},
-						"description": "Some tests to make sure starts with 9"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Stocks",
-			"description": "",
-			"item": [
-				{
-					"name": "Crypto By ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"let jsonData = pm.response.json();",
-									"    ",
-									"pm.test(\"Base Currency match\", function () {",
-									"    let base = jsonData.id.substring(0, 3);",
-									"    console.info(base);",
-									"    pm.expect(base).to.eql(jsonData.base_currency);",
-									"});",
-									"",
-									"pm.test(\"Quote Currency match\", function(){",
-									"    let quotecurrency = jsonData.id.substr(4,3);",
-									"    console.info(quotecurrency);",
-									"    pm.expect(quotecurrency).to.eql(jsonData.quote_currency);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{BaseUrl}}/api/CryptoCurrency/{{CurrencyID}}",
-							"host": [
-								"{{BaseUrl}}"
-							],
-							"path": [
-								"api",
-								"CryptoCurrency",
-								"{{CurrencyID}}"
-							]
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Get id 602",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiYm9iQGNvbnRyaXZlZGV4YW1wbGUuY29tIiwibmJmIjoxNTA2OTU0ODk1LCJleHAiOjE1MDY5NTUxOTUsImlzcyI6IkJvc2NjQXBpIiwiYXVkIjoiWW91In0.Bgol1iDq5ayxLzLYl8rNnl9qkwYUS9h72ziW_LM8O1c"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{BaseUrl}}/api/posts/602",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"posts",
-						"602"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Posts",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiYm9iQGNvbnRyaXZlZGV4YW1wbGUuY29tIiwibmJmIjoxNTA2OTU0ODk1LCJleHAiOjE1MDY5NTUxOTUsImlzcyI6IkJvc2NjQXBpIiwiYXVkIjoiWW91In0.Bgol1iDq5ayxLzLYl8rNnl9qkwYUS9h72ziW_LM8O1c"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{BaseUrl}}/api/posts/602",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"posts",
-						"602"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Post And Validate Demo",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"",
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"const hdr = postman.getResponseHeader(\"Location\"); ",
-							"const theid = parseInt(_.last(hdr.split(\"/\")), 10);",
-							"const isnumber = _.isFinite(theid);",
-							"",
-							"pm.test(\"Location header ok\", function(){",
-							"    pm.expect(hdr).to.not.be.null;",
-							"});",
-							"",
-							"pm.test(\"New ID in route\", function(){",
-							"   pm.expect(isnumber).to.be.true;",
-							"});",
-							"",
-							"//The response we got",
-							"const jsonResponse = pm.response.json();",
-							"",
-							"//make a GET to the url in the location header",
-							"let myTests = function(tkn, id, respJson){",
-							"    ",
-							"    pm.sendRequest({",
-							"       url: hdr,",
-							"       method: 'GET',",
-							"       header: { ",
-							"           'Accept' : 'application/json',",
-							"           'Authorization' : 'Bearer ' + tkn",
-							"       }",
-							"   }, function (err, res) {",
-							"    ",
-							"       const queryVal = res.json();",
-							"        ",
-							"        pm.test(\"Original returned id matches queried id\", function(){",
-							"            pm.expect(queryVal.id).to.eql(id);     ",
-							"        });",
-							"       ",
-							"       pm.test(\"Original returned postTypeId matches queried postTypeId\", function(){",
-							"            pm.expect(respJson.postTypeId).to.eql(queryVal.postTypeId);    ",
-							"       });",
-							"       ",
-							"       pm.test(\"Original returned body matches queried body\", function(){",
-							"            pm.expect(respJson.body).to.eql(queryVal.body);    ",
-							"       });",
-							"       ",
-							"       pm.test(\"Original returned ownerUserId matches queried ownerUserId\", function(){",
-							"            pm.expect(respJson.ownerUserId).to.eql(queryVal.ownerUserId);    ",
-							"       });",
-							"})};",
-							"",
-							"eval(postman.getGlobalVariable(\"TokenSetter\"));",
-							"",
-							"",
-							"",
-							"",
-							"",
-							"",
-							"",
-							"",
-							"",
-							"",
-							""
-						]
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"",
-							"eval(postman.getGlobalVariable(\"DemoHasher\"));",
-							"var h = new PostmanScripts.Hasher();",
-							"",
-							"const reqBody = request.data;",
-							"const theHash = h.GenerateHash(reqBody, \"ABCDE12335\");",
-							"",
-							"postman.setEnvironmentVariable(\"Signature\", theHash);",
-							"",
-							"console.info(theHash);",
-							""
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Request-Signature",
-						"value": "{{Signature}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"postTypeId\": 2,\n    \"creationDate\": \"2017-09-29T09:05:18.607-04:00\",\n    \"score\": 0,\n    \"viewCount\": 101,\n    \"title\": \"Mares Eat Oats\",\n    \"body\": \"and little lambs eat ivy\",\n    \"lastActivityDate\": \"2017-09-30T09:05:18.607-04:00\",\n    \"ownerUserId\": 6478,\n    \"lastEditorUserId\": null,\n    \"lastEditDate\": null,\n    \"commentCount\": 1,\n    \"tags\": \"abc,123\",\n    \"answerCount\": 15,\n    \"favoriteCount\": 3\n}"
-				},
-				"url": {
-					"raw": "{{BaseUrl}}/api/posts",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"posts"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Token Failure",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "bobo",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "not this",
-							"description": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{BaseUrl}}/api/Token",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"Token"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Expired Token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"",
-							"//TODO: add expired token and validate response header = www-authenticate:\"Bearer error=\"invalid_token\", error_description=\"The token is expired\"\"",
-							"",
-							"pm.test(\"Status code is 401\", function () {",
-							"    pm.response.to.have.status(401);",
-							"});",
-							"",
-							"pm.test(\"Token is expired\", function(){",
-							"   pm.respons.to.eql(false) ;",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "bobo",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "not this",
-							"description": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{BaseUrl}}/api/Token",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"Token"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Token Success",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "bob",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123password",
-							"description": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{BaseUrl}}/api/Token",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"Token"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get Image",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "{{BaseUrl}}/api/Gif",
-					"host": [
-						"{{BaseUrl}}"
-					],
-					"path": [
-						"api",
-						"Gif"
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "name": "Boscc",
+    "_postman_id": "599e14f2-a482-026a-2291-987c581c48df",
+    "description": "",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Simple",
+      "item": [
+        {
+          "name": "1. localhost:63816/api/Simple/4",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:63816/api/Simple/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "63816",
+              "path": [
+                "api",
+                "Simple",
+                "4"
+              ]
+            },
+            "description": "Step two of simple demo, parameterizing your url."
+          },
+          "response": []
+        },
+        {
+          "name": "2. {{BaseUrl}}/api/Simple/4",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/Simple/4",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Simple",
+                "4"
+              ]
+            },
+            "description": "Step two of simple demo, parameterizing your url."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Random ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/Simple/{{$randomInt}}",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Simple",
+                "{{$randomInt}}"
+              ]
+            },
+            "description": "Uses built-in random number"
+          },
+          "response": []
+        },
+        {
+          "name": "4. Starts With 9 (Demo Console)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let rando = Math.random();",
+                  "let chopped = Math.trunc((9 + rando) * 1000);",
+                  "console.info(\"Chopped: \" + chopped);",
+                  "postman.setEnvironmentVariable('StartsWith9', chopped);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Simple",
+                "{{StartsWith9}}"
+              ]
+            },
+            "description": "Uses built-in random number"
+          },
+          "response": []
+        },
+        {
+          "name": "5. Starts With 9 By Saved Script",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let customscript = eval(postman.getGlobalVariable('StartsWith9Custom'));",
+                  "let chopped = customscript.generateNbr();",
+                  "postman.setEnvironmentVariable('StartsWith9', chopped);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Simple",
+                "{{StartsWith9}}"
+              ]
+            },
+            "description": "Uses custom script to generate a 9number"
+          },
+          "response": []
+        },
+        {
+          "name": "6. Starts With 9 with tests",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f1ebe40a-7c1b-4d09-be80-4282fdeb0a9f",
+                "type": "text/javascript",
+                "exec": [
+                  "",
+                  "pm.test(\"Starts with 9\", function () {",
+                  "    let jsonData = pm.response.json();",
+                  "    let nine = Math.trunc(jsonData.id / 1000);",
+                  "    pm.expect(nine).to.eql(9);",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  ""
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "26772f0d-02ab-4c2d-a6d5-682fa67c920b",
+                "type": "text/javascript",
+                "exec": [
+                  "let customscript = eval(postman.getGlobalVariable('StartsWith9Custom'));",
+                  "let chopped = customscript.generateNbr();",
+                  "postman.setEnvironmentVariable('StartsWith9', chopped);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "{{BaseUrl}}/api/Simple/{{StartsWith9}}",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Simple",
+                "{{StartsWith9}}"
+              ]
+            },
+            "description": "Some tests to make sure starts with 9"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "One Step",
+      "item": [
+        {
+          "name": "Get id 602",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ea0c41e1-8638-4dae-998a-8899219eabb1",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Id matches what we asked for\", function () {",
+                  "    let jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.eql(602);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "6c247a4d-ece5-4fdb-8973-2d8be1de2910",
+                "type": "text/javascript",
+                "exec": [
+                  "",
+                  "const BaseUrl = postman.getEnvironmentVariable(\"BaseUrl\");",
+                  "const username = postman.getEnvironmentVariable(\"TokenUserName\");",
+                  "const password = postman.getEnvironmentVariable(\"TokenPassword\");",
+                  "",
+                  "pm.sendRequest({",
+                  "    url: BaseUrl + '/api/Token',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Accept' : 'text/plain'},",
+                  "    body: {",
+                  "        mode: 'raw',",
+                  "        raw: \"username=\" + username + \"&password=\" + password",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    postman.setEnvironmentVariable(\"LastToken\", res.text());",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{LastToken}}"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "{{BaseUrl}}/api/posts/602",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                "602"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2c5aad0a-04ac-4086-9c24-aa454d9e742e",
+              "name": "Get id 602",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{LastToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{BaseUrl}}/api/posts/602",
+                  "host": [
+                    "{{BaseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "posts",
+                    "602"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "_postman_previewtype": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8",
+                  "name": "Content-Type",
+                  "description": "The mime type of this content"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 02 Oct 2017 18:16:59 GMT",
+                  "name": "Date",
+                  "description": "The date and time that the message was sent"
+                },
+                {
+                  "key": "Server",
+                  "value": "Kestrel",
+                  "name": "Server",
+                  "description": "A name for the server"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked",
+                  "name": "Transfer-Encoding",
+                  "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+                }
+              ],
+              "cookie": [],
+              "responseTime": "44",
+              "body": "{\"id\":602,\"postTypeId\":2,\"creationDate\":\"2012-04-12T09:05:18.607-04:00\",\"score\":0,\"viewCount\":null,\"title\":null,\"body\":\"<p>In my opinion:<br>\\nWhy do I have do log on to chat rooms seperatly? I know I need some reputation to talk there, there are more chatrooms than SO-portals.</p>\\n\\n<p>I mean, few days ago I saw a 100 bounty in SO asking about SharePoint. This member also had account in SP. Why not asking there? I guess, it is same reason why noone is in chat.</p>\\n\",\"lastActivityDate\":\"2012-04-12T09:05:18.607-04:00\",\"ownerUserId\":6478,\"lastEditorUserId\":null,\"lastEditDate\":null,\"commentCount\":1,\"tags\":null,\"answerCount\":null,\"favoriteCount\":null}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Two Steps",
+      "item": [
+        {
+          "name": "Get Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "postman.setEnvironmentVariable(\"LastToken\", pm.response.text());",
+                  "console.info(postman.getEnvironmentVariable(\"LastToken\"));",
+                  "",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "bob",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "123password",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/Token",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get id 602",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "",
+                  "var tkn = postman.getEnvironmentVariable(\"LastToken\");",
+                  "",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{LastToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/posts/602",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts",
+                "602"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Iterations",
+      "item": [
+        {
+          "name": "Post copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "",
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "var jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Your test name\", function () {",
+                  "    pm.expect(jsonData.viewCount).to.eql(101);",
+                  "});",
+                  "",
+                  ""
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "",
+                  "eval(postman.getGlobalVariable(\"DemoHasher\"));",
+                  "var h = new PostmanScripts.Hasher();",
+                  "",
+                  "const reqBody = request.data;",
+                  "const theHash = h.GenerateHash(reqBody, \"ABCDE12335\");",
+                  "",
+                  "postman.setEnvironmentVariable(\"Signature\", theHash);",
+                  "",
+                  "console.info(theHash);",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Request-Signature",
+                "value": "{{Signature}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"postTypeId\": 2,\n    \"creationDate\": \"2017-09-29T09:05:18.607-04:00\",\n    \"score\": 0,\n    \"viewCount\": 101,\n    \"title\": \"Mares Eat Oats\",\n    \"body\": \"and little lambs eat ivy\",\n    \"lastActivityDate\": \"2017-09-30T09:05:18.607-04:00\",\n    \"ownerUserId\": 6478,\n    \"lastEditorUserId\": null,\n    \"lastEditDate\": null,\n    \"commentCount\": 1,\n    \"tags\": \"abc,123\",\n    \"answerCount\": 15,\n    \"favoriteCount\": 3\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/posts",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stocks",
+      "item": [
+        {
+          "name": "Crypto By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "let jsonData = pm.response.json();",
+                  "    ",
+                  "pm.test(\"Base Currency match\", function () {",
+                  "    let base = jsonData.id.substring(0, 3);",
+                  "    console.info(base);",
+                  "    pm.expect(base).to.eql(jsonData.base_currency);",
+                  "});",
+                  "",
+                  "pm.test(\"Quote Currency match\", function(){",
+                  "    let quotecurrency = jsonData.id.substr(4,3);",
+                  "    console.info(quotecurrency);",
+                  "    pm.expect(quotecurrency).to.eql(jsonData.quote_currency);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/CryptoCurrency/{{CurrencyID}}",
+              "host": [
+                "{{BaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "CryptoCurrency",
+                "{{CurrencyID}}"
+              ]
+            },
+            "description": "if \"Unresolved Variable\", Postman will literally send the text, e.g., \"{{CurrencyID}}\""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Get id 602",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiYm9iQGNvbnRyaXZlZGV4YW1wbGUuY29tIiwibmJmIjoxNTA2OTU0ODk1LCJleHAiOjE1MDY5NTUxOTUsImlzcyI6IkJvc2NjQXBpIiwiYXVkIjoiWW91In0.Bgol1iDq5ayxLzLYl8rNnl9qkwYUS9h72ziW_LM8O1c"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/posts/602",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "posts",
+            "602"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Posts",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiYm9iQGNvbnRyaXZlZGV4YW1wbGUuY29tIiwibmJmIjoxNTA2OTU0ODk1LCJleHAiOjE1MDY5NTUxOTUsImlzcyI6IkJvc2NjQXBpIiwiYXVkIjoiWW91In0.Bgol1iDq5ayxLzLYl8rNnl9qkwYUS9h72ziW_LM8O1c"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/posts/602",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "posts",
+            "602"
+          ]
+        },
+        "description": "This is unauthorized because the token is invalid."
+      },
+      "response": []
+    },
+    {
+      "name": "Post And Validate Demo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "b5515465-3a6c-41d4-83c4-956a996042be",
+            "type": "text/javascript",
+            "exec": [
+              "const BaseUrl = postman.getEnvironmentVariable(\"BaseUrl\");",
+              "const username = postman.getEnvironmentVariable(\"TokenUserName\");",
+              "const password = postman.getEnvironmentVariable(\"TokenPassword\");",
+              "const hdr = postman.getResponseHeader(\"Location\"); ",
+              "const theid = parseInt(_.last(hdr.split(\"/\")), 10);",
+              "const isnumber = _.isFinite(theid);",
+              "const originalRequest = JSON.parse(request.data);",
+              "  ",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Location header ok\", function(){",
+              "    pm.expect(hdr).to.not.be.null;",
+              "});",
+              "pm.test(\"New ID in route\", function(){",
+              "   pm.expect(isnumber).to.be.true;",
+              "});",
+              "",
+              "//The response we got",
+              "const originalResponse = pm.response.json();",
+              "",
+              "const tokenRequestConfig = { ",
+              "    url : BaseUrl + '/api/Token', ",
+              "    method : \"POST\", ",
+              "    header : { 'Content-Type' : 'application/x-www-form-urlencoded', 'Accept' : 'text/plain'},",
+              "    body : { mode: 'raw', raw : \"username=\" + username + \"&password=\" + password }",
+              "};",
+              "",
+              "//This outer request is just to obtain the security token required",
+              "// by the subsequent call to GetById",
+              "pm.sendRequest(tokenRequestConfig, function(err, res){",
+              "   ",
+              "    let tkn = res.text();",
+              "",
+              "    //now we have the token, get the new Post from the database",
+              "    // and assert the data",
+              "    pm.sendRequest({",
+              "       url: hdr,",
+              "       method: 'GET',",
+              "       header: { 'Accept' : 'application/json', 'Authorization' : 'Bearer ' + tkn }",
+              "       }, function (err, res) {",
+              "            ",
+              "            const queryVal = res.json();",
+              "            ",
+              "            pm.test(\"Original returned id matches queried id\", function(){",
+              "                pm.expect(queryVal.id).to.equal(theid);     ",
+              "            });",
+              "            ",
+              "            pm.test(\"postTypeId\", function(){",
+              "               pm.expect(queryVal.postTypeId).to.equal(originalRequest.postTypeId);",
+              "            });",
+              "           ",
+              "           pm.test(\"Original returned postTypeId matches queried postTypeId\", function(){",
+              "                pm.expect(originalResponse.postTypeId).to.equal(queryVal.postTypeId);    ",
+              "           });",
+              "           ",
+              "           pm.test(\"Original returned body matches queried body\", function(){",
+              "                pm.expect(originalResponse.body).to.equal(queryVal.body);    ",
+              "           });",
+              "           ",
+              "           pm.test(\"Original returned ownerUserId matches queried ownerUserId\", function(){",
+              "                pm.expect(originalResponse.ownerUserId).to.equal(queryVal.ownerUserId);    ",
+              "           });",
+              "    });",
+              "});",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "2ef76377-856d-49ca-b9a8-a9506b0c803f",
+            "type": "text/javascript",
+            "exec": [
+              "",
+              "eval(postman.getGlobalVariable(\"DemoHasher\"));",
+              "var h = new PostmanScripts.Hasher();",
+              "",
+              "const reqBody = request.data;",
+              "const theHash = h.GenerateHash(reqBody, \"ABCDE12335\");",
+              "",
+              "postman.setEnvironmentVariable(\"Signature\", theHash);",
+              "",
+              "console.info(theHash);",
+              ""
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Request-Signature",
+            "value": "{{Signature}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"postTypeId\": 2,\n    \"creationDate\": \"2017-09-29T09:05:18.607-04:00\",\n    \"score\": 0,\n    \"viewCount\": 101,\n    \"title\": \"Mares Eat Oats\",\n    \"body\": \"and little lambs eat ivy\",\n    \"lastActivityDate\": \"2017-09-30T09:05:18.607-04:00\",\n    \"ownerUserId\": 6478,\n    \"lastEditorUserId\": null,\n    \"lastEditDate\": null,\n    \"commentCount\": 1,\n    \"tags\": \"abc,123\",\n    \"answerCount\": 15,\n    \"favoriteCount\": 3\n}"
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/posts",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "posts"
+          ]
+        },
+        "description": "This creates a new Post and then gets the new record from the database and compares the request/response with the database record.\nIt will have a location header because the controller returns a CreatedAtRoute response."
+      },
+      "response": []
+    },
+    {
+      "name": "Token Failure",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "bobo",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "not this",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/Token",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Expired Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "",
+              "//TODO: add expired token and validate response header = www-authenticate:\"Bearer error=\"invalid_token\", error_description=\"The token is expired\"\"",
+              "",
+              "pm.test(\"Status code is 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Token is expired\", function(){",
+              "   pm.respons.to.eql(false) ;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "bobo",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "not this",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/Token",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Token Success",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "bob",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "123password",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/Token",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Image",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/api/Gif",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Gif"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
